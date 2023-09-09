@@ -19,6 +19,12 @@
             <a class="nav-link {{ Request::is('categories') ? 'active' : '' }}" href="/categories">Categories</a>
           </li>
         </ul>
+
+        <ul class="navbar-nav ms-auto badge bg-secondary">
+          <li class="nav-item">
+            <a href="{{ route('login') }}" class="nav-link {{ Request::is('login') ? 'active' : '' }}">Login</a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
