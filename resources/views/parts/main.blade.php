@@ -11,5 +11,7 @@
 <body>
     @include('parts.navbar')
     @yield('container')
+
+    <script src="{{ asset('dist/js/bootstrap.js') }}"></script>
 </body>
 </html>

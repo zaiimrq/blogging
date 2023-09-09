@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PortallController;
@@ -22,7 +23,9 @@ Route::controller(PostController::class)->group(fn () => [Route::get('/posts', '
 Route::middleware('guest')->group(
     fn () => [
         Route::get('login', [PortallController::class, 'login'])->name('login'),
-        Route::post('login', [PortallController::class, 'login'])->name('login.post'),
-        Route::get('register', [PortallController::class, 'register'])->name('register')
+        Route::post('login', [PortallController::class, 'login_post'])->name('login.post'),
+        Route::get('register', [PortallController::class, 'register'])->name('register'),
+        Route::post('register', [PortallController::class, 'register_post'])->name('register.post'),
     ]
 );
+Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');

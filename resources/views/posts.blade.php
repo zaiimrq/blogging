@@ -25,7 +25,7 @@
             @endif
 
             <div class="card p-0">
-                <img src="https://source.unsplash.com/1200x350?{{ $posts[0]->category->name }}" class="card-img-top" alt="...">
+                <img src="https://source.unsplash.com/1200x350?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
                 <div class="card-body text-center">
                     <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none">
                         <h5 class="card-title">{{ $posts[0]->title }}</h5>
