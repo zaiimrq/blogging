@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
-use Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class DashboardPostController extends Controller
 {
@@ -15,7 +17,7 @@ class DashboardPostController extends Controller
     public function index()
     {
         return view('dashboard.posts.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get()
+            'posts' => Post::latest()->where('user_id', auth()->user()->id)->get()
         ]);
     }
 
@@ -34,12 +36,19 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
-        // $data = $request->validate([
-        //     'title' => ['required', 'min:5', 'max:255'],
-        //     'slug' => ['required'],
-        //     'category_id'
-        // ]);
+        $data = $request->validate([
+            'title' => ['required', 'min:5', 'max:255'],
+            'slug' => ['required', 'unique:posts'],
+            'category_id' => ['required'],
+            'body' => ['required']
+        ]);
+
+        $data['user_id'] = Auth::user()->id;
+        $data['excerpt'] = Str::limit($data['body'], 20);
+
+        Post::create($data);
+
+        return redirect(route('posts.index'))->with('success', 'New post has been added !');
     }
 
     /**
@@ -57,7 +66,10 @@ class DashboardPostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('dashboard.posts.edit', [
+            'categories' => Category::all(),
+            'post' => $post
+        ]);
     }
 
     /**
@@ -65,7 +77,27 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $rule = [
+            'title' => ['required', 'min:5', 'max:255'],
+            'category_id' => ['required'],
+            'body' => ['required']
+        ];
+
+        $data = $request->validate($rule);
+
+        if($request->slug !== $post->slug) {
+            $data['slug'] = $request->slug;
+        } 
+
+        $data['slug'] = $post->slug;
+        $data['user_id'] = Auth::user()->id;
+        $data['excerpt'] = Str::limit($data['body'], 20);
+
+        Post::firstWhere('id', $post->id)->update;
+        return redirect(route('posts.index'))->with('success', 'Post has been updated !');
+        
+
+
     }
 
     /**
