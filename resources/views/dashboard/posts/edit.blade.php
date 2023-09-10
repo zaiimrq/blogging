@@ -20,14 +20,15 @@
                   @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3">
-                    {{-- <select class="form-select" aria-label="Default select example" name="category_id">
-                        @if ($post->category_id)
-                            <option selected value="{{ $post->category_id }}">{{ $post->category->name }}</option>
-                        @endif
+                    <select class="form-select" aria-label="Default select example" name="category_id">
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if (old('category_id', $post->category_id) == $category->id)
+                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                            @else
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endif
                         @endforeach
-                    </select> --}}
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="body" class="form-label">Body</label>

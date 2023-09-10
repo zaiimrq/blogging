@@ -15,13 +15,17 @@
                 </div>
                 <div class="mb-3">
                   <label for="slug" class="form-label">Slug</label>
-                  <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug">
+                  <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}">
                   @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3">
                     <select class="form-select" aria-label="Default select example" name="category_id">
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if (old('category_id') == $category->id)
+                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                            @else
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
