@@ -25,7 +25,7 @@ class PortallController extends Controller
         if(Auth::attempt($login)) {
             
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('dashboard.index'));
         }
 
         return back()->with('loginError', 'Email atau password tidak sesuai !');
@@ -49,5 +49,13 @@ class PortallController extends Controller
         $register['password'] = bcrypt($register['password']);
         User::create($register);
         return redirect(route('login'))->with('success', 'Register berhasil, silahkan login!');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        session()->regenerateToken();
+
+        return redirect(route('home'));
     }
 }

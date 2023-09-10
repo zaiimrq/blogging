@@ -20,10 +20,23 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ms-auto badge bg-secondary">
-          <li class="nav-item">
-            <a href="{{ route('login') }}" class="nav-link {{ Request::is('login') ? 'active' : '' }}">Login</a>
-          </li>
+        <ul class="navbar-nav ms-auto">
+          @auth    
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Welcome, {{ Auth::user()->name }}
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+              </ul>
+            </li>
+          @else
+            <li class="nav-item badge bg-secondary">
+              <a href="{{ route('login') }}" class="nav-link {{ Request::is('login') ? 'active' : '' }}">Login</a>
+            </li>
+          @endauth
         </ul>
       </div>
     </div>

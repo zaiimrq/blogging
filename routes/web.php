@@ -16,7 +16,7 @@ use App\Http\Controllers\PortallController;
 |
 */
 
-Route::get('/', fn () => view('home', ['title' => 'Home']));
+Route::get('/', fn () => view('home', ['title' => 'Home']))->name('home');
 Route::get('about', fn () => view('about', ['title' => 'About']));
 Route::get('categories', fn () => view('categories', ['title' => 'Categories']));
 Route::controller(PostController::class)->group(fn () => [Route::get('/posts', 'index'), Route::get('/posts/{post}', 'show')]);
@@ -28,4 +28,8 @@ Route::middleware('guest')->group(
         Route::post('register', [PortallController::class, 'register_post'])->name('register.post'),
     ]
 );
+Route::get('logout', [PortallController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('dashboard/posts/slug', [DashboardPostController::class, 'slug']);
+Route::get('dashboard', fn () => view('dashboard.index'))->name('dashboard.index')->middleware('auth');
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');
