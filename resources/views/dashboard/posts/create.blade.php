@@ -6,7 +6,7 @@
     </div>
     <div class="row">
         <div class="col-lg-8">
-            <form action="{{ route('posts.store') }}" method="post">
+            <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                   <label for="title" class="form-label">Title</label>
@@ -30,6 +30,11 @@
                     </select>
                 </div>
                 <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <img class="img-fluid mb-2 rounded col-sm-5 shadow" id="preview">
+                    <input type="file" name="image" class="form-control" id="image" onchange="previewImg()">
+                </div>
+                <div class="mb-3">
                     <label for="body" class="form-label">Body</label>
                     @error('body') <div class="invalid-feedback d-block mb-1">{{ $message }}</div> @enderror
                     <input id="body" type="hidden" name="body" value="{{ old('body') }}">
@@ -49,5 +54,18 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug)
         })
+
+        function previewImg() {
+            const img = document.getElementById("image");
+            const prev = document.getElementById("preview");
+            const reader = new FileReader();
+
+            prev.style.display = "block";
+
+            reader.readAsDataURL(img.files[0]);
+            reader.onload = function(e) {
+                prev.src = e.target.result;
+            }
+        }
     </script>
 @endsection

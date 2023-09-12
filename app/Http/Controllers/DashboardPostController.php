@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPostController extends Controller
 {
@@ -47,6 +48,7 @@ class DashboardPostController extends Controller
         $data['excerpt'] = Str::limit($data['body'], 20);
 
         Post::create($data);
+        Storage::put('post-images', $request->file('image'));
 
         return redirect()->route('posts.index')->with('success', 'New post has been added !');
     }
