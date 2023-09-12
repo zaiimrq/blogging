@@ -48,7 +48,7 @@ class DashboardPostController extends Controller
 
         Post::create($data);
 
-        return redirect(route('posts.index'))->with('success', 'New post has been added !');
+        return redirect()->route('posts.index')->with('success', 'New post has been added !');
     }
 
     /**
@@ -95,7 +95,7 @@ class DashboardPostController extends Controller
         $data['excerpt'] = Str::limit(strip_tags($request->body), 300);
 
         Post::firstWhere('id', $post->id)->update($data);
-        return redirect(route('posts.index'))->with('success', 'Post has been updated !');
+        return redirect()->route('posts.index')->with('success', 'Post has been updated !');
         
 
 
