@@ -25,7 +25,11 @@
             @endif
 
             <div class="card p-0">
-                <img src="https://source.unsplash.com/1200x350?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+                @if ($posts[0]->image)                    
+                    <img src="{{ asset('storage/' . $posts[0]->image) }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+                @else
+                    <img src="https://source.unsplash.com/1200x350?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+                @endif
                 <div class="card-body text-center">
                     <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none">
                         <h5 class="card-title">{{ $posts[0]->title }}</h5>
@@ -38,7 +42,11 @@
                 @foreach ($posts->skip(1) as $post)
                     <div class="col-md-4 my-1">
                         <div class="card">
-                            <img src="https://source.unsplash.com/200x100?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                            @if ($post->image)                    
+                                <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top col-sm-5" alt="{{ $post->category->name }}">
+                            @else
+                                <img src="https://source.unsplash.com/1200x350?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                            @endif
                             <a href="/posts?category={{ $post->category->slug }}" class="position-absolute btn text-white" style="background-color: rgba(0, 0, 0, .7)">{{ $post->category->name }}</a>
                             <div class="card-body">
                                 <small>

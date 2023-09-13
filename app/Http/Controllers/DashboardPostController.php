@@ -41,14 +41,18 @@ class DashboardPostController extends Controller
             'title' => ['required', 'min:5', 'max:255'],
             'slug' => ['required', 'unique:posts'],
             'category_id' => ['required'],
-            'body' => ['required']
+            'body' => ['required'],
+            'image' => ['image', 'max:1024']
         ]);
 
         $data['user_id'] = Auth::user()->id;
-        $data['excerpt'] = Str::limit($data['body'], 20);
+        $data['excerpt'] = Str::limit(strip_tags($request->body), 300);
+
+        if($request->file('image')) {
+            $data['image'] = $request->file('image')->store('post-images');
+        }
 
         Post::create($data);
-        Storage::put('post-images', $request->file('image'));
 
         return redirect()->route('posts.index')->with('success', 'New post has been added !');
     }
@@ -79,10 +83,12 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
         $rule = [
             'title' => ['required', 'min:5', 'max:255'],
             'category_id' => ['required'],
-            'body' => ['required']
+            'body' => ['required'],
+            'image' => ['image', 'max:1024']
         ];
 
         if($request->slug !== $post->slug) {
@@ -90,6 +96,14 @@ class DashboardPostController extends Controller
         } 
 
         $data = $request->validate($rule);
+
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+
+            $data['image'] = $request->file('image')->store('post-images');
+        }
 
 
         $data['slug'] = $post->slug;
@@ -108,6 +122,9 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if($post->image) {
+            Storage::delete($post->image);
+        }
         $post->delete();
         return  redirect(route('posts.index'))->with('success', 'Post has been deleted !');
         

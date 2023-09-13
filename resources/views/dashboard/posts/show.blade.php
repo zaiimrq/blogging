@@ -15,6 +15,13 @@
                 </form>
             </span>
             <article class="mt-3 mb-5">
+                <div class="card p-0 mb-3">
+                    @if ($post->image)            
+                        <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->category->name }}">
+                    @else
+                        <img src="https://source.unsplash.com/1200x350?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                    @endif
+                </div>
                 {!! $post->body !!}
             </article>
         </div>

@@ -8,7 +8,11 @@
                     <a href="/posts" class="btn btn-primary mb-3">Kembali</a>
                     <h1 class="mb-3 text-center">{{ $post->title }}</h1>
                     <div class="card p-0 mb-3">
-                        <img src="https://source.unsplash.com/1200x350?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                        @if ($post->image)            
+                            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->category->name }}">
+                        @else
+                            <img src="https://source.unsplash.com/1200x350?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                        @endif
                     </div>
                     <small class="mb-1">
                         By <a href="/posts?author={{ $post->user->username }}">{{ $post->user->name }}</a>
