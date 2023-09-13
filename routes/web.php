@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardCategoryController;
 use App\Http\Controllers\DashboardPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -33,3 +34,4 @@ Route::get('logout', [PortallController::class, 'logout'])->name('logout')->midd
 Route::get('dashboard/posts/slug', [DashboardPostController::class, 'slug']);
 Route::get('dashboard', fn () => view('dashboard.index'))->name('dashboard.index')->middleware('auth');
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');
+Route::resource('dashboard/categories', DashboardCategoryController::class);
