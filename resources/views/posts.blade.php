@@ -45,7 +45,7 @@
                             @if ($post->image)                    
                                 <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top col-sm-5" alt="{{ $post->category->name }}">
                             @else
-                                <img src="https://source.unsplash.com/1200x350?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                                <img src="https://source.unsplash.com/350x300?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
                             @endif
                             <a href="/posts?category={{ $post->category->slug }}" class="position-absolute btn text-white" style="background-color: rgba(0, 0, 0, .7)">{{ $post->category->name }}</a>
                             <div class="card-body">

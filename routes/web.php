@@ -34,4 +34,5 @@ Route::get('logout', [PortallController::class, 'logout'])->name('logout')->midd
 Route::get('dashboard/posts/slug', [DashboardPostController::class, 'slug']);
 Route::get('dashboard', fn () => view('dashboard.index'))->name('dashboard.index')->middleware('auth');
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');
-Route::resource('dashboard/categories', DashboardCategoryController::class);
+Route::resource('dashboard/categories', DashboardCategoryController::class)->except(['show', 'create']);
+Route::get('dashboard/categories/slug', [DashboardCategoryController::class, 'slug']);
